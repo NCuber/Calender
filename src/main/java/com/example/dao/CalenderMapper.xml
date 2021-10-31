@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.dao.CalenderDao">
+	<resultMap type="com.example.Calender" id="Calender">
+		<id column="id" property="id" javaType="int" jdbcType="INTEGER"/>
+		<result column="sdate" property="sdate" javaType="java.time.LocalDate" jdbcType="DATE" />
+		<result column="edate" property="edate" javaType="java.time.LocalDate" jdbcType="DATE" />	
+		<result column="value" property="value" javaType="java.lang.String" jdbcType="VARCHAR" />	
+		<result column="complete" property="complete" javaType="boolean" jdbcType="TINYINT" />
+		<result column="memberid" property="memberid" javaType="int" jdbcType="INTEGER"/>
+	</resultMap>
+	
+	<insert id="insert" parameterType="com.example.Calender" useGeneratedKeys="true" keyProperty="id">
+		insert into
+		calender(sdate, edate, value, complete, memberid)
+		values(#{sdate}, #{edate}, #{value}, #{complete}, #{memberid})
+	</insert>
+
+	<update id="update" parameterType="com.example.Calender">
+		update calender set
+		sdate=#{sdate}, edate=#{edate}, value=#{value}, complete=#{complete}
+		where id=#{id}
+	</update>
+
+	<delete id="deleteByKey" parameterType="int">
+		delete from calender
+		where id=#{id}
+	</delete>
+	
+	<select id="selectByKey" parameterType="int" resultMap="Calender">
+		select *
+		from calender
+		where id=#{id}
+	</select>
+	
+	<select id="selectByMember" parameterType="int" resultMap="Calender">
+		select *
+		from calender
+		where memberid=#{memberid}
+	</select>
+	
+	<select id="selectAll" resultMap="Calender">
+		select *
+		from calender
+	</select>
+	
+</mapper>
+<!-- id: 함수명, parameter: 매개변수, result: 반환타입, 변수: #{}, SQL 은 그대로. -->

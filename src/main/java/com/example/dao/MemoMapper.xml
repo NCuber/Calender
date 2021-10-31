@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.dao.MemoDao">
+	<resultMap type="com.example.Memo" id="Memo">
+		<id column="id" property="id" javaType="int" jdbcType="INTEGER"/>
+		<result column="date" property="date" javaType="java.time.LocalDate" jdbcType="DATE"/>
+		<result column="value" property="value" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="important" property="important" javaType="boolean" jdbcType="TINYINT" />
+		<result column="memberid" property="memberid" javaType="int" jdbcType="INTEGER"/>
+	</resultMap>
+	
+	<insert id="insert" parameterType="com.example.Memo" useGeneratedKeys="true" keyProperty="id">
+		insert into
+		memo(date, value, important, memberid)
+		values(#{date}, #{value}, #{important}, #{memberid})
+	</insert>
+
+	<update id="update" parameterType="com.example.Memo">
+		update memo set
+		value=#{value},
+		important=#{important}
+		where id=#{id}
+	</update>
+
+	<delete id="deleteByKey" parameterType="int">
+		delete from memo
+		where id=#{id}
+	</delete>
+	
+	<select id="selectByKey" parameterType="int" resultMap="Memo">
+		select *
+		from memo
+		where id=#{id}
+	</select>
+	
+	<select id="selectByMember" parameterType="int" resultMap="Memo">
+		select *
+		from memo
+		where memberid=#{memberid}
+	</select>
+	
+	<select id="selectAll" resultMap="Memo">
+		select *
+		from memo
+	</select>
+	
+	
+	
+</mapper>
+<!-- id: 함수명, parameter: 매개변수, result: 반환타입, 변수: #{}, SQL 은 그대로. -->
